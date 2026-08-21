@@ -21,7 +21,7 @@ class PlayerTwoScreen extends StatefulWidget {
 
 class _PlayerTwoScreenState extends State<PlayerTwoScreen>
     with WidgetsBindingObserver, SingleTickerProviderStateMixin {
-  final _formKey = GlobalKey<FormState>();
+
   final _guessController = TextEditingController();
   final _focusNode = FocusNode();
 
@@ -157,7 +157,7 @@ class _PlayerTwoScreenState extends State<PlayerTwoScreen>
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              theme.colorScheme.background,
+              theme.colorScheme.surface,
               AppColors.secondary.withOpacity(0.15), // Red tint for urgency
             ],
           ),

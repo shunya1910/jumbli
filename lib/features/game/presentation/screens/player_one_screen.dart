@@ -76,11 +76,11 @@ class _PlayerOneScreenState extends State<PlayerOneScreen>
       });
 
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: const Text('Word locked! Scrambling...'),
+        const SnackBar(
+          content: Text('Word locked! Scrambling...'),
           backgroundColor: AppColors.success,
           behavior: SnackBarBehavior.floating,
-          duration: const Duration(seconds: 2),
+          duration: Duration(seconds: 2),
         ),
       );
     }
@@ -99,7 +99,7 @@ class _PlayerOneScreenState extends State<PlayerOneScreen>
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              theme.colorScheme.background,
+              theme.colorScheme.surface,
               AppColors.primaryLight.withOpacity(0.15),
             ],
           ),

@@ -131,7 +131,7 @@ class _ResultsScreenState extends State<ResultsScreen>
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  theme.colorScheme.background,
+                  theme.colorScheme.surface,
                   _resultColor.withOpacity(0.15),
                 ],
               ),
