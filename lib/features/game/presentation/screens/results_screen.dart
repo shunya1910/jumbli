@@ -1,8 +1,8 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:confetti/confetti.dart';
-import '../../../core/theme/app_colors.dart';
-import '../../../core/utils/audio_manager.dart';
+import 'package:jumbli/core/theme/app_colors.dart';
+import 'package:jumbli/core/utils/audio_manager.dart';
 import 'player_one_screen.dart';
 
 enum GameResult { correct, wrong, timeout }
@@ -23,7 +23,8 @@ class ResultsScreen extends StatefulWidget {
   State<ResultsScreen> createState() => _ResultsScreenState();
 }
 
-class _ResultsScreenState extends State<ResultsScreen> with SingleTickerProviderStateMixin {
+class _ResultsScreenState extends State<ResultsScreen>
+    with SingleTickerProviderStateMixin {
   late ConfettiController _confettiController;
   late AnimationController _iconAnimationController;
   late Animation<double> _scaleAnimation;
@@ -31,9 +32,11 @@ class _ResultsScreenState extends State<ResultsScreen> with SingleTickerProvider
   @override
   void initState() {
     super.initState();
-    
+
     // Confetti
-    _confettiController = ConfettiController(duration: const Duration(seconds: 3));
+    _confettiController = ConfettiController(
+      duration: const Duration(seconds: 3),
+    );
     if (widget.result == GameResult.correct) {
       _confettiController.play();
     }
@@ -43,13 +46,19 @@ class _ResultsScreenState extends State<ResultsScreen> with SingleTickerProvider
       vsync: this,
       duration: const Duration(milliseconds: 600),
     );
-    _scaleAnimation = TweenSequence<double>([
-      TweenSequenceItem(tween: Tween(begin: 0.0, end: 1.3), weight: 60),
-      TweenSequenceItem(tween: Tween(begin: 1.3, end: 1.0), weight: 40),
-    ]).animate(CurvedAnimation(parent: _iconAnimationController, curve: Curves.easeInOut));
-    
+    _scaleAnimation =
+        TweenSequence<double>([
+          TweenSequenceItem(tween: Tween(begin: 0.0, end: 1.3), weight: 60),
+          TweenSequenceItem(tween: Tween(begin: 1.3, end: 1.0), weight: 40),
+        ]).animate(
+          CurvedAnimation(
+            parent: _iconAnimationController,
+            curve: Curves.easeInOut,
+          ),
+        );
+
     _iconAnimationController.forward();
-    
+
     // Play sound based on result
     if (widget.result == GameResult.correct) {
       AudioManager.playSuccess();
@@ -128,7 +137,7 @@ class _ResultsScreenState extends State<ResultsScreen> with SingleTickerProvider
               ),
             ),
           ),
-          
+
           SafeArea(
             child: Padding(
               padding: const EdgeInsets.all(24.0),
@@ -139,14 +148,10 @@ class _ResultsScreenState extends State<ResultsScreen> with SingleTickerProvider
                   // Animated Icon
                   ScaleTransition(
                     scale: _scaleAnimation,
-                    child: Icon(
-                      _icon,
-                      size: 100,
-                      color: _resultColor,
-                    ),
+                    child: Icon(_icon, size: 100, color: _resultColor),
                   ),
                   const SizedBox(height: 24),
-                  
+
                   // Title
                   Text(
                     _title,
@@ -158,7 +163,7 @@ class _ResultsScreenState extends State<ResultsScreen> with SingleTickerProvider
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 48),
-                  
+
                   // Word Reveal Card
                   Container(
                     padding: const EdgeInsets.all(24),
@@ -190,7 +195,7 @@ class _ResultsScreenState extends State<ResultsScreen> with SingleTickerProvider
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        
+
                         if (widget.result == GameResult.wrong) ...[
                           const SizedBox(height: 24),
                           Text(
@@ -201,7 +206,9 @@ class _ResultsScreenState extends State<ResultsScreen> with SingleTickerProvider
                           ),
                           const SizedBox(height: 4),
                           Text(
-                            widget.playerGuess.isEmpty ? '(Nothing)' : widget.playerGuess,
+                            widget.playerGuess.isEmpty
+                                ? '(Nothing)'
+                                : widget.playerGuess,
                             style: theme.textTheme.titleLarge?.copyWith(
                               color: AppColors.secondary,
                               decoration: TextDecoration.lineThrough,
@@ -211,9 +218,9 @@ class _ResultsScreenState extends State<ResultsScreen> with SingleTickerProvider
                       ],
                     ),
                   ),
-                  
+
                   const SizedBox(height: 64),
-                  
+
                   // Next Round Button
                   ElevatedButton(
                     onPressed: _nextRound,

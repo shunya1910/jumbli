@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
-import '../../../core/theme/app_colors.dart';
+import 'package:jumbli/core/theme/app_colors.dart';
 
 class ScrambleAnimation extends StatefulWidget {
   final String originalWord;
@@ -18,9 +18,10 @@ class ScrambleAnimation extends StatefulWidget {
   State<ScrambleAnimation> createState() => _ScrambleAnimationState();
 }
 
-class _ScrambleAnimationState extends State<ScrambleAnimation> with TickerProviderStateMixin {
+class _ScrambleAnimationState extends State<ScrambleAnimation>
+    with TickerProviderStateMixin {
   late List<AnimationController> _controllers;
-  
+
   @override
   void initState() {
     super.initState();
@@ -40,7 +41,7 @@ class _ScrambleAnimationState extends State<ScrambleAnimation> with TickerProvid
   @override
   void didUpdateWidget(ScrambleAnimation oldWidget) {
     super.didUpdateWidget(oldWidget);
-    
+
     // Re-setup if length changes (should not happen in normal gameplay, but just in case)
     if (oldWidget.originalWord.length != widget.originalWord.length) {
       for (var controller in _controllers) {
@@ -55,7 +56,7 @@ class _ScrambleAnimationState extends State<ScrambleAnimation> with TickerProvid
       _playScrambleAnimation();
     }
   }
-  
+
   void _playScrambleAnimation() {
     for (int i = 0; i < _controllers.length; i++) {
       Future.delayed(Duration(milliseconds: i * 80), () {
@@ -77,8 +78,12 @@ class _ScrambleAnimationState extends State<ScrambleAnimation> with TickerProvid
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final wordToDisplay = widget.isScrambled ? widget.scrambledWord : widget.originalWord;
-    final previousWord = widget.isScrambled ? widget.originalWord : widget.scrambledWord;
+    final wordToDisplay = widget.isScrambled
+        ? widget.scrambledWord
+        : widget.originalWord;
+    final previousWord = widget.isScrambled
+        ? widget.originalWord
+        : widget.scrambledWord;
 
     return Wrap(
       alignment: WrapAlignment.center,
@@ -89,15 +94,15 @@ class _ScrambleAnimationState extends State<ScrambleAnimation> with TickerProvid
           animation: _controllers[index],
           builder: (context, child) {
             final value = _controllers[index].value;
-            
+
             // Switch letter at exactly 50% of the animation
-            final currentLetter = value < 0.5 ? previousWord[index] : wordToDisplay[index];
-            
+            final currentLetter = value < 0.5
+                ? previousWord[index]
+                : wordToDisplay[index];
+
             // Scale goes 1 -> 0 -> 1
-            final scale = value < 0.5 
-                ? 1.0 - (value * 2) 
-                : (value - 0.5) * 2;
-                
+            final scale = value < 0.5 ? 1.0 - (value * 2) : (value - 0.5) * 2;
+
             // Rotate 0 to 180 degrees (pi)
             final rotation = value * math.pi;
 

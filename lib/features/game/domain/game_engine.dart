@@ -10,8 +10,8 @@ class GameEngine {
   /// if the word has more than one unique character.
   static String scrambleWord(String word) {
     final original = normalizeWord(word);
-    
-    // If word is only 1 character, or all characters are identical (e.g. "AAA"), 
+
+    // If word is only 1 character, or all characters are identical (e.g. "AAA"),
     // it can't be scrambled into a different string.
     final uniqueChars = original.split('').toSet();
     if (uniqueChars.length <= 1) {
@@ -20,7 +20,7 @@ class GameEngine {
 
     final random = Random();
     String scrambled;
-    
+
     do {
       final chars = original.split('');
       chars.shuffle(random);

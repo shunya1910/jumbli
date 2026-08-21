@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../../../core/theme/app_colors.dart';
+import 'package:jumbli/core/theme/app_colors.dart';
 import '../../domain/game_engine.dart';
 import 'results_screen.dart';
 
@@ -19,11 +19,12 @@ class PlayerTwoScreen extends StatefulWidget {
   State<PlayerTwoScreen> createState() => _PlayerTwoScreenState();
 }
 
-class _PlayerTwoScreenState extends State<PlayerTwoScreen> with WidgetsBindingObserver, SingleTickerProviderStateMixin {
+class _PlayerTwoScreenState extends State<PlayerTwoScreen>
+    with WidgetsBindingObserver, SingleTickerProviderStateMixin {
   final _formKey = GlobalKey<FormState>();
   final _guessController = TextEditingController();
   final _focusNode = FocusNode();
-  
+
   Timer? _timer;
   int _timeLeft = 10;
   bool _isGameOver = false;
@@ -35,7 +36,7 @@ class _PlayerTwoScreenState extends State<PlayerTwoScreen> with WidgetsBindingOb
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    
+
     _pulseController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 500),
@@ -59,12 +60,14 @@ class _PlayerTwoScreenState extends State<PlayerTwoScreen> with WidgetsBindingOb
         timer.cancel();
         return;
       }
-      
+
       setState(() {
         if (_timeLeft > 0) {
           _timeLeft--;
           if (_timeLeft <= 3) {
-            _pulseController.repeat(reverse: true); // Pulse when time is running out
+            _pulseController.repeat(
+              reverse: true,
+            ); // Pulse when time is running out
           }
         } else {
           _handleTimeout();
@@ -75,7 +78,8 @@ class _PlayerTwoScreenState extends State<PlayerTwoScreen> with WidgetsBindingOb
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.paused || state == AppLifecycleState.inactive) {
+    if (state == AppLifecycleState.paused ||
+        state == AppLifecycleState.inactive) {
       // Game logic pause could be implemented here, but for a 10s game it's fair to keep it running
       // or we can pause the timer. Let's pause it to be nice.
       _timer?.cancel();
@@ -102,7 +106,7 @@ class _PlayerTwoScreenState extends State<PlayerTwoScreen> with WidgetsBindingOb
 
   void _submitGuess() {
     if (_isGameOver) return;
-    
+
     final guess = _guessController.text.trim();
     if (guess.isEmpty) return; // Don't penalize empty submits
 
@@ -116,17 +120,17 @@ class _PlayerTwoScreenState extends State<PlayerTwoScreen> with WidgetsBindingOb
 
   void _endGame({bool isTimeout = false, bool isCorrect = false}) {
     if (_isGameOver) return;
-    
+
     setState(() {
       _isGameOver = true;
     });
-    
+
     _timer?.cancel();
     _focusNode.unfocus();
     _pulseController.stop();
 
-    final resultState = isTimeout 
-        ? GameResult.timeout 
+    final resultState = isTimeout
+        ? GameResult.timeout
         : (isCorrect ? GameResult.correct : GameResult.wrong);
 
     Navigator.of(context).pushReplacement(
@@ -143,7 +147,7 @@ class _PlayerTwoScreenState extends State<PlayerTwoScreen> with WidgetsBindingOb
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    
+
     return Scaffold(
       body: Container(
         width: double.infinity,
@@ -161,7 +165,10 @@ class _PlayerTwoScreenState extends State<PlayerTwoScreen> with WidgetsBindingOb
         child: SafeArea(
           child: Center(
             child: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 24.0,
+                vertical: 16.0,
+              ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -172,7 +179,9 @@ class _PlayerTwoScreenState extends State<PlayerTwoScreen> with WidgetsBindingOb
                     child: Text(
                       '00:${_timeLeft.toString().padLeft(2, '0')}',
                       style: theme.textTheme.displayLarge?.copyWith(
-                        color: _timeLeft <= 3 ? AppColors.secondary : AppColors.primary,
+                        color: _timeLeft <= 3
+                            ? AppColors.secondary
+                            : AppColors.primary,
                         fontWeight: FontWeight.w900,
                       ),
                       textAlign: TextAlign.center,
@@ -189,7 +198,7 @@ class _PlayerTwoScreenState extends State<PlayerTwoScreen> with WidgetsBindingOb
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 32),
-                  
+
                   // Scrambled Word Display
                   Wrap(
                     alignment: WrapAlignment.center,
@@ -227,7 +236,7 @@ class _PlayerTwoScreenState extends State<PlayerTwoScreen> with WidgetsBindingOb
                     }).toList(),
                   ),
                   const SizedBox(height: 48),
-                  
+
                   // Input Form
                   Container(
                     decoration: BoxDecoration(
@@ -251,14 +260,12 @@ class _PlayerTwoScreenState extends State<PlayerTwoScreen> with WidgetsBindingOb
                       inputFormatters: [
                         FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]')),
                       ],
-                      decoration: const InputDecoration(
-                        hintText: 'YOUR GUESS',
-                      ),
+                      decoration: const InputDecoration(hintText: 'YOUR GUESS'),
                       onSubmitted: (_) => _submitGuess(),
                     ),
                   ),
                   const SizedBox(height: 32),
-                  
+
                   // Submit Button
                   ElevatedButton(
                     onPressed: _isGameOver ? null : _submitGuess,
@@ -277,9 +284,13 @@ class _PlayerTwoScreenState extends State<PlayerTwoScreen> with WidgetsBindingOb
                       ),
                     ),
                   ),
-                  
+
                   // Keyboard padding spacer
-                  SizedBox(height: MediaQuery.of(context).viewInsets.bottom > 0 ? 40 : 0),
+                  SizedBox(
+                    height: MediaQuery.of(context).viewInsets.bottom > 0
+                        ? 40
+                        : 0,
+                  ),
                 ],
               ),
             ),
