@@ -1,0 +1,10 @@
+services:
+  flutter:
+    image: ghcr.io/cirruslabs/flutter:stable
+    volumes:
+      - .:/workspace
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    environment:
+      - HOME=/tmp
+    command: sleep infinity
