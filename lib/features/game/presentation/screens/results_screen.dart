@@ -187,12 +187,15 @@ class _ResultsScreenState extends State<ResultsScreen>
                           ),
                         ),
                         const SizedBox(height: 8),
-                        Text(
-                          widget.originalWord,
-                          style: theme.textTheme.headlineMedium?.copyWith(
-                            color: AppColors.primary,
-                            letterSpacing: 4,
-                            fontWeight: FontWeight.bold,
+                        FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text(
+                            widget.originalWord,
+                            style: theme.textTheme.headlineMedium?.copyWith(
+                              color: AppColors.primary,
+                              letterSpacing: 4,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
 
@@ -205,13 +208,16 @@ class _ResultsScreenState extends State<ResultsScreen>
                             ),
                           ),
                           const SizedBox(height: 4),
-                          Text(
-                            widget.playerGuess.isEmpty
-                                ? '(Nothing)'
-                                : widget.playerGuess,
-                            style: theme.textTheme.titleLarge?.copyWith(
-                              color: AppColors.secondary,
-                              decoration: TextDecoration.lineThrough,
+                          FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Text(
+                              widget.playerGuess.isEmpty
+                                  ? '(Nothing)'
+                                  : widget.playerGuess,
+                              style: theme.textTheme.titleLarge?.copyWith(
+                                color: AppColors.secondary,
+                                decoration: TextDecoration.lineThrough,
+                              ),
                             ),
                           ),
                         ],

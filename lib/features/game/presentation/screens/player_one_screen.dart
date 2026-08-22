@@ -111,12 +111,6 @@ class _PlayerOneScreenState extends State<PlayerOneScreen>
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       // Header
-                      Icon(
-                        Icons.visibility_off_rounded,
-                        size: 48,
-                        color: theme.colorScheme.primary,
-                      ),
-                      const SizedBox(height: 16),
                       Text(
                         'PLAYER 1',
                         style: theme.textTheme.headlineMedium?.copyWith(
@@ -128,7 +122,7 @@ class _PlayerOneScreenState extends State<PlayerOneScreen>
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        'Enter a secret word to scramble\nDon\'t let Player 2 see!',
+                        'Enter a word for your friend to guess',
                         style: theme.textTheme.bodyLarge?.copyWith(
                           color: theme.textTheme.bodyLarge?.color?.withOpacity(
                             0.7,
@@ -188,7 +182,7 @@ class _PlayerOneScreenState extends State<PlayerOneScreen>
                                       child: TextFormField(
                                         controller: _wordController,
                                         focusNode: _focusNode,
-                                        style: theme.textTheme.headlineMedium
+                                        style: theme.textTheme.titleLarge
                                             ?.copyWith(letterSpacing: 2),
                                         textAlign: TextAlign.center,
                                         textCapitalization:
@@ -199,7 +193,7 @@ class _PlayerOneScreenState extends State<PlayerOneScreen>
                                           ),
                                         ],
                                         decoration: const InputDecoration(
-                                          hintText: 'SECRET WORD',
+                                          hintText: 'ENTER A WORD',
                                         ),
                                         validator: Validators.validateWord,
                                         onFieldSubmitted: (_) => _submitWord(),
