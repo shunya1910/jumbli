@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:jumbli/core/theme/app_colors.dart';
 import 'package:jumbli/core/utils/validators.dart';
 import '../../domain/game_engine.dart';
-import '../widgets/scramble_animation.dart';
+
 import 'player_two_screen.dart';
 
 class PlayerOneScreen extends StatefulWidget {
@@ -23,9 +23,7 @@ class _PlayerOneScreenState extends State<PlayerOneScreen>
   late Animation<double> _fadeAnimation;
   late Animation<Offset> _slideAnimation;
 
-  bool _isLockedIn = false;
-  String _originalWord = '';
-  String _scrambledWord = '';
+
 
   @override
   void initState() {
@@ -69,11 +67,15 @@ class _PlayerOneScreenState extends State<PlayerOneScreen>
       // Remove focus to hide keyboard
       _focusNode.unfocus();
 
-      setState(() {
-        _originalWord = word;
-        _scrambledWord = GameEngine.scrambleWord(word);
-        _isLockedIn = true;
-      });
+      final scrambledWord = GameEngine.scrambleWord(word);
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (_) => PlayerTwoScreen(
+            originalWord: word,
+            scrambledWord: scrambledWord,
+          ),
+        ),
+      );
     }
   }
 
@@ -132,99 +134,59 @@ class _PlayerOneScreenState extends State<PlayerOneScreen>
                       ),
                       const SizedBox(height: 48),
 
-                      // Show either Form or Scramble Animation
-                      AnimatedSwitcher(
-                        duration: const Duration(milliseconds: 600),
-                        child: _isLockedIn
-                            ? Column(
-                                children: [
-                                  ScrambleAnimation(
-                                    originalWord: _originalWord,
-                                    scrambledWord: _scrambledWord,
-                                    isScrambled: true,
-                                  ),
-                                  const SizedBox(height: 48),
-                                  ElevatedButton(
-                                    onPressed: () {
-                                      Navigator.of(context).pushReplacement(
-                                        MaterialPageRoute(
-                                          builder: (_) => PlayerTwoScreen(
-                                            originalWord: _originalWord,
-                                            scrambledWord: _scrambledWord,
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: AppColors.secondary,
-                                    ),
-                                    child: const Text('PASS TO PLAYER 2'),
+                      // Form
+                      Form(
+                        key: _formKey,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: AppColors.primary.withOpacity(0.05),
+                                    blurRadius: 20,
+                                    offset: const Offset(0, 10),
                                   ),
                                 ],
-                              )
-                            : Form(
-                                key: _formKey,
-                                child: Column(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.stretch,
-                                  children: [
-                                    Container(
-                                      decoration: BoxDecoration(
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: AppColors.primary
-                                                .withOpacity(0.05),
-                                            blurRadius: 20,
-                                            offset: const Offset(0, 10),
-                                          ),
-                                        ],
-                                      ),
-                                      child: TextFormField(
-                                        controller: _wordController,
-                                        focusNode: _focusNode,
-                                        style: theme.textTheme.titleLarge
-                                            ?.copyWith(letterSpacing: 2),
-                                        textAlign: TextAlign.center,
-                                        textCapitalization:
-                                            TextCapitalization.characters,
-                                        inputFormatters: [
-                                          FilteringTextInputFormatter.allow(
-                                            RegExp(r'[a-zA-Z]'),
-                                          ),
-                                        ],
-                                        decoration: const InputDecoration(
-                                          hintText: 'ENTER A WORD',
-                                        ),
-                                        validator: Validators.validateWord,
-                                        onFieldSubmitted: (_) => _submitWord(),
-                                      ),
-                                    ),
-                                    const SizedBox(height: 32),
+                              ),
+                              child: TextFormField(
+                                controller: _wordController,
+                                focusNode: _focusNode,
+                                style: theme.textTheme.titleLarge?.copyWith(letterSpacing: 2),
+                                textAlign: TextAlign.center,
+                                textCapitalization: TextCapitalization.characters,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]')),
+                                ],
+                                decoration: const InputDecoration(
+                                  hintText: 'ENTER A WORD',
+                                ),
+                                validator: Validators.validateWord,
+                                onFieldSubmitted: (_) => _submitWord(),
+                              ),
+                            ),
+                            const SizedBox(height: 32),
 
-                                    // Submit Button
-                                    ElevatedButton(
-                                      onPressed: _submitWord,
-                                      style: ElevatedButton.styleFrom(
-                                        padding: const EdgeInsets.symmetric(
-                                          vertical: 20,
-                                        ),
-                                        elevation: 8,
-                                        shadowColor: AppColors.primary
-                                            .withOpacity(0.5),
-                                      ),
-                                      child: Text(
-                                        'LOCK IT IN',
-                                        style: theme.textTheme.titleLarge
-                                            ?.copyWith(
-                                              color: Colors.white,
-                                              letterSpacing: 2,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                      ),
-                                    ),
-                                  ],
+                            // Submit Button
+                            ElevatedButton(
+                              onPressed: _submitWord,
+                              style: ElevatedButton.styleFrom(
+                                padding: const EdgeInsets.symmetric(vertical: 20),
+                                elevation: 8,
+                                shadowColor: AppColors.primary.withOpacity(0.5),
+                              ),
+                              child: Text(
+                                'LOCK IT IN',
+                                style: theme.textTheme.titleLarge?.copyWith(
+                                  color: Colors.white,
+                                  letterSpacing: 2,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
+                            ),
+                          ],
+                        ),
                       ),
 
                       // Keyboard padding spacer
