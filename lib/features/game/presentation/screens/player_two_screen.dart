@@ -127,11 +127,12 @@ class _PlayerTwoScreenState extends State<PlayerTwoScreen>
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    // Calculate a good width for the cards so they all fit on screen ideally
+    // Calculate a good width for the cards, making them significantly larger
     final screenWidth = MediaQuery.of(context).size.width;
     final maxCardWidth = (screenWidth - 48 - ((_currentCards.length - 1) * 8)) / _currentCards.length;
-    final cardWidth = maxCardWidth > 80.0 ? 80.0 : maxCardWidth;
-    final cardHeight = cardWidth * 1.2;
+    // Allow cards to be much larger, capping at 130 instead of 80. If there are many letters, they will comfortably scroll horizontally.
+    final cardWidth = maxCardWidth > 130.0 ? 130.0 : (maxCardWidth < 90.0 ? 90.0 : maxCardWidth);
+    final cardHeight = cardWidth * 1.3;
 
     return Scaffold(
       body: Container(

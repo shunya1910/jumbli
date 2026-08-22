@@ -139,7 +139,7 @@ class _ResultsScreenState extends State<ResultsScreen>
           ),
 
           SafeArea(
-            child: Padding(
+            child: SingleChildScrollView(
               padding: const EdgeInsets.all(24.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -255,8 +255,8 @@ class _ResultsScreenState extends State<ResultsScreen>
               blastDirection: pi / 2, // blast downwards
               maxBlastForce: 20, // set a lower max blast force
               minBlastForce: 5, // set a lower min blast force
-              emissionFrequency: 0.05,
-              numberOfParticles: 50, // a lot of particles at once
+              emissionFrequency: 0.02,
+              numberOfParticles: 15, // reduced amount of particles
               gravity: 0.2,
               colors: const [
                 AppColors.primary,

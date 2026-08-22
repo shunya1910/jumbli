@@ -74,15 +74,6 @@ class _PlayerOneScreenState extends State<PlayerOneScreen>
         _scrambledWord = GameEngine.scrambleWord(word);
         _isLockedIn = true;
       });
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Word locked! Scrambling...'),
-          backgroundColor: AppColors.success,
-          behavior: SnackBarBehavior.floating,
-          duration: Duration(seconds: 2),
-        ),
-      );
     }
   }
 
