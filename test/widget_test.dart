@@ -11,6 +11,6 @@ void main() {
 
     // Verify that Player 1 text is on screen.
     expect(find.text('PLAYER 1'), findsOneWidget);
-    expect(find.text('LOCK IT IN'), findsOneWidget);
+    expect(find.text('SHOW'), findsOneWidget);
   });
 }
