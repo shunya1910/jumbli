@@ -15,18 +15,18 @@ class AudioManager {
   }
 
   static Future<void> playSuccess() async {
-    await _safePlay('audio/success.mp3');
+    await _safePlay('audio/success.wav');
   }
 
   static Future<void> playFailure() async {
-    await _safePlay('audio/wrong.mp3');
+    await _safePlay('audio/wrong.wav');
   }
 
   static Future<void> playTimeout() async {
-    await _safePlay('audio/timeout.mp3');
+    await _safePlay('audio/timeout.wav');
   }
 
   static Future<void> playTick() async {
-    await _safePlay('audio/tick.mp3');
+    await _safePlay('audio/tick.wav');
   }
 }
