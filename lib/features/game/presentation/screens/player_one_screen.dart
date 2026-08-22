@@ -154,13 +154,14 @@ class _PlayerOneScreenState extends State<PlayerOneScreen>
                                 controller: _wordController,
                                 focusNode: _focusNode,
                                 style: theme.textTheme.titleLarge?.copyWith(letterSpacing: 2),
-                                textAlign: TextAlign.center,
+                                textAlign: TextAlign.start,
                                 textCapitalization: TextCapitalization.characters,
                                 inputFormatters: [
                                   FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]')),
                                 ],
                                 decoration: const InputDecoration(
                                   hintText: 'ENTER YOUR WORD',
+                                  contentPadding: EdgeInsets.symmetric(horizontal: 24, vertical: 20),
                                 ),
                                 validator: Validators.validateWord,
                                 onFieldSubmitted: (_) => _submitWord(),
@@ -177,7 +178,7 @@ class _PlayerOneScreenState extends State<PlayerOneScreen>
                                 shadowColor: AppColors.primary.withOpacity(0.5),
                               ),
                               child: Text(
-                                'LOCK IT IN',
+                                'SHOW',
                                 style: theme.textTheme.titleLarge?.copyWith(
                                   color: Colors.white,
                                   letterSpacing: 2,
