@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:jumbli/core/theme/app_colors.dart';
 import '../../domain/game_engine.dart';
+import 'package:jumbli/core/utils/audio_manager.dart';
 import 'results_screen.dart';
 
 class PlayerTwoScreen extends StatefulWidget {
@@ -64,6 +65,7 @@ class _PlayerTwoScreenState extends State<PlayerTwoScreen>
       setState(() {
         if (_timeLeft > 0) {
           _timeLeft--;
+          AudioManager.playTick();
           if (_timeLeft <= 3) {
             _pulseController.repeat(
               reverse: true,
@@ -178,7 +180,7 @@ class _PlayerTwoScreenState extends State<PlayerTwoScreen>
                     scale: _pulseAnimation,
                     child: Text(
                       '00:${_timeLeft.toString().padLeft(2, '0')}',
-                      style: theme.textTheme.displayLarge?.copyWith(
+                      style: theme.textTheme.displayMedium?.copyWith(
                         color: _timeLeft <= 3
                             ? AppColors.secondary
                             : AppColors.primary,
@@ -206,8 +208,8 @@ class _PlayerTwoScreenState extends State<PlayerTwoScreen>
                     runSpacing: 12,
                     children: widget.scrambledWord.split('').map((letter) {
                       return Container(
-                        width: 48,
-                        height: 56,
+                        width: 64,
+                        height: 72,
                         decoration: BoxDecoration(
                           color: theme.colorScheme.surface,
                           borderRadius: BorderRadius.circular(12),
@@ -226,7 +228,7 @@ class _PlayerTwoScreenState extends State<PlayerTwoScreen>
                         child: Center(
                           child: Text(
                             letter,
-                            style: theme.textTheme.headlineMedium?.copyWith(
+                            style: theme.textTheme.displaySmall?.copyWith(
                               color: AppColors.primary,
                               fontWeight: FontWeight.bold,
                             ),

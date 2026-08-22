@@ -25,4 +25,8 @@ class AudioManager {
   static Future<void> playTimeout() async {
     await _safePlay('audio/timeout.mp3');
   }
+
+  static Future<void> playTick() async {
+    await _safePlay('audio/tick.mp3');
+  }
 }
