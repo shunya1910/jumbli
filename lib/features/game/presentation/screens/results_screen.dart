@@ -78,7 +78,16 @@ class _ResultsScreenState extends State<ResultsScreen>
 
   void _nextRound() {
     Navigator.of(context).pushAndRemoveUntil(
-      MaterialPageRoute(builder: (_) => const PlayerOneScreen()),
+      PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) => const PlayerOneScreen(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return FadeTransition(
+            opacity: animation,
+            child: child,
+          );
+        },
+        transitionDuration: const Duration(milliseconds: 800),
+      ),
       (route) => false,
     );
   }

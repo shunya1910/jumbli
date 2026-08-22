@@ -128,12 +128,19 @@ class _PlayerTwoScreenState extends State<PlayerTwoScreen>
         : (isCorrect ? GameResult.correct : GameResult.wrong);
 
     Navigator.of(context).pushReplacement(
-      MaterialPageRoute(
-        builder: (_) => ResultsScreen(
+      PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) => ResultsScreen(
           result: resultState,
           originalWord: widget.originalWord,
           playerGuess: _currentCards.map((c) => c['letter'] as String).join(''),
         ),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return FadeTransition(
+            opacity: animation,
+            child: child,
+          );
+        },
+        transitionDuration: const Duration(milliseconds: 800),
       ),
     );
   }

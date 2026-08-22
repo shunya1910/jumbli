@@ -69,11 +69,18 @@ class _PlayerOneScreenState extends State<PlayerOneScreen>
 
       final scrambledWord = GameEngine.scrambleWord(word);
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (_) => PlayerTwoScreen(
+        PageRouteBuilder(
+          pageBuilder: (context, animation, secondaryAnimation) => PlayerTwoScreen(
             originalWord: word,
             scrambledWord: scrambledWord,
           ),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(
+              opacity: animation,
+              child: child,
+            );
+          },
+          transitionDuration: const Duration(milliseconds: 800),
         ),
       );
     }
