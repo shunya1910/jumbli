@@ -160,7 +160,7 @@ class _PlayerOneScreenState extends State<PlayerOneScreen>
                                   FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]')),
                                 ],
                                 decoration: const InputDecoration(
-                                  hintText: 'ENTER A WORD',
+                                  hintText: 'ENTER YOUR WORD',
                                 ),
                                 validator: Validators.validateWord,
                                 onFieldSubmitted: (_) => _submitWord(),

@@ -130,8 +130,9 @@ class _PlayerTwoScreenState extends State<PlayerTwoScreen>
     // Calculate a good width for the cards, making them significantly larger
     final screenWidth = MediaQuery.of(context).size.width;
     final maxCardWidth = (screenWidth - 48 - ((_currentCards.length - 1) * 8)) / _currentCards.length;
-    // Allow cards to be much larger, capping at 130 instead of 80. If there are many letters, they will comfortably scroll horizontally.
-    final cardWidth = maxCardWidth > 130.0 ? 130.0 : (maxCardWidth < 90.0 ? 90.0 : maxCardWidth);
+    // Allow cards to shrink dynamically so the entire word always fits on the screen without horizontal scrolling
+    // We cap the maximum size to 120 so they don't get comically huge for 3-letter words.
+    final cardWidth = maxCardWidth > 120.0 ? 120.0 : (maxCardWidth < 30.0 ? 30.0 : maxCardWidth);
     final cardHeight = cardWidth * 1.3;
 
     return Scaffold(
