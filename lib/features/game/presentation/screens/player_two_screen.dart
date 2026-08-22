@@ -192,8 +192,10 @@ class _PlayerTwoScreenState extends State<PlayerTwoScreen>
               ),
 
               // Center Content: Reorderable Cards
-              Center(
+              Align(
+                alignment: Alignment.center,
                 child: SizedBox(
+                  width: double.infinity,
                   height: cardHeight + 40,
                   child: Theme(
                     data: Theme.of(context).copyWith(
@@ -202,7 +204,7 @@ class _PlayerTwoScreenState extends State<PlayerTwoScreen>
                     child: ReorderableListView.builder(
                       buildDefaultDragHandles: false, // Disables the long-press requirement
                       scrollDirection: Axis.horizontal,
-                      shrinkWrap: true, // Centers the list
+                      shrinkWrap: false, // Allow full scrolling for long words
                       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
                       itemCount: _currentCards.length,
                       onReorder: (oldIndex, newIndex) {
