@@ -4,27 +4,27 @@ import 'package:google_fonts/google_fonts.dart';
 class AppTypography {
   static TextTheme getLightTextTheme() {
     return TextTheme(
-      displayLarge: GoogleFonts.fredoka(
+      displayLarge: GoogleFonts.outfit(
         fontSize: 48,
         fontWeight: FontWeight.bold,
       ),
-      displayMedium: GoogleFonts.fredoka(
+      displayMedium: GoogleFonts.outfit(
         fontSize: 36,
         fontWeight: FontWeight.bold,
       ),
-      displaySmall: GoogleFonts.fredoka(
+      displaySmall: GoogleFonts.outfit(
         fontSize: 28,
         fontWeight: FontWeight.bold,
       ),
-      headlineMedium: GoogleFonts.fredoka(
+      headlineMedium: GoogleFonts.outfit(
         fontSize: 24,
         fontWeight: FontWeight.w600,
       ),
-      headlineSmall: GoogleFonts.fredoka(
+      headlineSmall: GoogleFonts.outfit(
         fontSize: 20,
         fontWeight: FontWeight.w600,
       ),
-      titleLarge: GoogleFonts.fredoka(
+      titleLarge: GoogleFonts.outfit(
         fontSize: 18,
         fontWeight: FontWeight.w600,
       ),

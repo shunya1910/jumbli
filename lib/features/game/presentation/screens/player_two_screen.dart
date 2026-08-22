@@ -199,6 +199,7 @@ class _PlayerTwoScreenState extends State<PlayerTwoScreen>
                       canvasColor: Colors.transparent, // Prevents white background on drag
                     ),
                     child: ReorderableListView.builder(
+                      buildDefaultDragHandles: false, // Disables the long-press requirement
                       scrollDirection: Axis.horizontal,
                       shrinkWrap: true, // Centers the list
                       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
@@ -218,33 +219,41 @@ class _PlayerTwoScreenState extends State<PlayerTwoScreen>
                         final card = _currentCards[index];
                         final letter = card['letter'] as String;
                         final id = card['id'] as int;
-                        return Container(
+                        return ReorderableDragStartListener(
+                          index: index,
                           key: ValueKey(id),
-                          width: cardWidth,
-                          height: cardHeight,
-                          margin: EdgeInsets.only(right: index == _currentCards.length - 1 ? 0 : 8),
-                          decoration: BoxDecoration(
-                            color: theme.colorScheme.surface,
-                            borderRadius: BorderRadius.circular(16),
-                            boxShadow: [
-                              BoxShadow(
-                                color: AppColors.primary.withOpacity(0.2),
-                                blurRadius: 12,
-                                offset: const Offset(0, 6),
+                          child: Container(
+                            width: cardWidth,
+                            height: cardHeight,
+                            margin: EdgeInsets.only(right: index == _currentCards.length - 1 ? 0 : 8),
+                            decoration: BoxDecoration(
+                              gradient: AppColors.primaryGradient,
+                              borderRadius: BorderRadius.circular(20),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: AppColors.primary.withOpacity(0.3),
+                                  blurRadius: 16,
+                                  offset: const Offset(0, 8),
+                                ),
+                                BoxShadow(
+                                  color: Colors.white.withOpacity(0.1),
+                                  blurRadius: 2,
+                                  offset: const Offset(0, -2),
+                                ),
+                              ],
+                              border: Border.all(
+                                color: Colors.white.withOpacity(0.2),
+                                width: 2,
                               ),
-                            ],
-                            border: Border.all(
-                              color: AppColors.primaryLight.withOpacity(0.5),
-                              width: 3,
                             ),
-                          ),
-                          child: Center(
-                            child: Text(
-                              letter,
-                              style: theme.textTheme.displayMedium?.copyWith(
-                                color: AppColors.primary,
-                                fontWeight: FontWeight.w900,
-                                fontSize: cardWidth * 0.6, // Responsive text
+                            child: Center(
+                              child: Text(
+                                letter,
+                                style: theme.textTheme.displayMedium?.copyWith(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w900,
+                                  fontSize: cardWidth * 0.6, // Responsive text
+                                ),
                               ),
                             ),
                           ),
