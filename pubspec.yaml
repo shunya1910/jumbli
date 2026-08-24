@@ -37,6 +37,10 @@ dependencies:
   google_fonts: any
   confetti: any
   audioplayers: any
+  shelf: any
+  shelf_web_socket: any
+  web_socket_channel: any
+  network_info_plus: any
 
 dev_dependencies:
   flutter_test:
