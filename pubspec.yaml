@@ -40,7 +40,7 @@ dependencies:
   shelf: any
   shelf_web_socket: any
   web_socket_channel: any
-  network_info_plus: any
+  network_info_plus: ^4.1.0
 
 dev_dependencies:
   flutter_test:
