@@ -4,18 +4,22 @@ import 'package:jumbli/core/theme/app_colors.dart';
 import '../../domain/game_engine.dart';
 import 'package:jumbli/core/utils/audio_manager.dart';
 import 'results_screen.dart';
+import '../../../../core/network/game_client.dart';
 
 class PlayerTwoScreen extends StatefulWidget {
   final String originalWord;
   final String scrambledWord;
-
   final bool isTimeBound;
+  final GameClient? client;
+  final String? playerName;
 
   const PlayerTwoScreen({
     super.key,
     required this.originalWord,
     required this.scrambledWord,
     required this.isTimeBound,
+    this.client,
+    this.playerName,
   });
 
   @override
@@ -40,9 +44,15 @@ class _PlayerTwoScreenState extends State<PlayerTwoScreen>
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     
-
-
-    // Assign a unique ID to each letter so ReorderableListView can track them reliably
+    // Listen for another player winning if we are in multiplayer mode
+    if (widget.client != null) {
+      widget.client!.onGameOver = (data) {
+        if (!mounted || _isGameOver) return;
+        final winnerName = data['name'] as String? ?? 'Another Player';
+        // Force them to lose since someone else won
+        _endGame(isCorrect: false, winnerName: winnerName);
+      };
+    }    // Assign a unique ID to each letter so ReorderableListView can track them reliably
     _currentCards = widget.scrambledWord.split('').asMap().entries.map((e) => {
       'letter': e.value,
       'id': e.key,
@@ -130,11 +140,20 @@ class _PlayerTwoScreenState extends State<PlayerTwoScreen>
     }
   }
 
-  void _endGame({bool isTimeout = false, bool isCorrect = false}) {
+  void _endGame({bool isTimeout = false, bool isCorrect = false, String? winnerName}) {
     if (_isGameOver) return;
     setState(() { _isGameOver = true; });
     _timer?.cancel();
     _pulseController.stop();
+
+    // If multiplayer and we got it correct, notify the server!
+    if (isCorrect && widget.client != null) {
+      widget.client!.sendMessage({
+        'action': 'i_won',
+        'name': widget.playerName ?? 'Unknown Player',
+      });
+      // We navigate normally to the results screen and show our win.
+    }
 
     final resultState = isTimeout
         ? GameResult.timeout
@@ -145,7 +164,7 @@ class _PlayerTwoScreenState extends State<PlayerTwoScreen>
         pageBuilder: (context, animation, secondaryAnimation) => ResultsScreen(
           result: resultState,
           originalWord: widget.originalWord,
-          playerGuess: _currentCards.map((c) => c['letter'] as String).join(''),
+          playerGuess: winnerName ?? _currentCards.map((c) => c['letter'] as String).join(''),
         ),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           return FadeTransition(

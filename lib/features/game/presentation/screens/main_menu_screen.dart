@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jumbli/core/theme/app_colors.dart';
 import 'player_one_screen.dart';
 import 'host_lobby_screen.dart';
+import 'join_game_screen.dart';
 
 class MainMenuScreen extends StatelessWidget {
   const MainMenuScreen({super.key});
@@ -84,7 +85,9 @@ class MainMenuScreen extends StatelessWidget {
                         icon: Icons.connect_without_contact_rounded,
                         color: AppColors.secondary,
                         onTap: () {
-                          // TODO: Navigate to Join Game Screen
+                          Navigator.of(context).push(
+                            MaterialPageRoute(builder: (_) => const JoinGameScreen()),
+                          );
                         },
                       ),
                     ],

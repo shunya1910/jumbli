@@ -177,17 +177,36 @@ class _HostLobbyScreenState extends State<HostLobbyScreen> {
                             onTap: () => setState(() => _isTimeBound = true),
                             child: AnimatedContainer(
                               duration: const Duration(milliseconds: 250),
+                              curve: Curves.easeInOut,
                               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
                               decoration: BoxDecoration(
                                 color: _isTimeBound ? AppColors.primary : Colors.transparent,
                                 borderRadius: BorderRadius.circular(28),
                               ),
-                              child: Text(
-                                '10 SECONDS',
-                                style: TextStyle(
-                                  color: _isTimeBound ? Colors.white : AppColors.textSecondaryLight,
-                                  fontWeight: FontWeight.w800,
-                                ),
+                              child: Row(
+                                children: [
+                                  TweenAnimationBuilder<Color?>(
+                                    duration: const Duration(milliseconds: 250),
+                                    tween: ColorTween(end: _isTimeBound ? Colors.white : AppColors.textSecondaryLight),
+                                    builder: (context, color, child) {
+                                      return Icon(
+                                        Icons.timer_outlined,
+                                        size: 20,
+                                        color: color,
+                                      );
+                                    },
+                                  ),
+                                  const SizedBox(width: 8),
+                                  AnimatedDefaultTextStyle(
+                                    duration: const Duration(milliseconds: 250),
+                                    style: TextStyle(
+                                      color: _isTimeBound ? Colors.white : AppColors.textSecondaryLight,
+                                      fontWeight: FontWeight.w800,
+                                      letterSpacing: 1.2,
+                                    ),
+                                    child: const Text('10 SECONDS'),
+                                  ),
+                                ],
                               ),
                             ),
                           ),
@@ -195,17 +214,36 @@ class _HostLobbyScreenState extends State<HostLobbyScreen> {
                             onTap: () => setState(() => _isTimeBound = false),
                             child: AnimatedContainer(
                               duration: const Duration(milliseconds: 250),
+                              curve: Curves.easeInOut,
                               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
                               decoration: BoxDecoration(
                                 color: !_isTimeBound ? AppColors.primary : Colors.transparent,
                                 borderRadius: BorderRadius.circular(28),
                               ),
-                              child: Text(
-                                '3 ATTEMPTS',
-                                style: TextStyle(
-                                  color: !_isTimeBound ? Colors.white : AppColors.textSecondaryLight,
-                                  fontWeight: FontWeight.w800,
-                                ),
+                              child: Row(
+                                children: [
+                                  TweenAnimationBuilder<Color?>(
+                                    duration: const Duration(milliseconds: 250),
+                                    tween: ColorTween(end: !_isTimeBound ? Colors.white : AppColors.textSecondaryLight),
+                                    builder: (context, color, child) {
+                                      return Icon(
+                                        Icons.favorite_outline_rounded,
+                                        size: 20,
+                                        color: color,
+                                      );
+                                    },
+                                  ),
+                                  const SizedBox(width: 8),
+                                  AnimatedDefaultTextStyle(
+                                    duration: const Duration(milliseconds: 250),
+                                    style: TextStyle(
+                                      color: !_isTimeBound ? Colors.white : AppColors.textSecondaryLight,
+                                      fontWeight: FontWeight.w800,
+                                      letterSpacing: 1.2,
+                                    ),
+                                    child: const Text('3 ATTEMPTS'),
+                                  ),
+                                ],
                               ),
                             ),
                           ),
@@ -220,24 +258,31 @@ class _HostLobbyScreenState extends State<HostLobbyScreen> {
                     key: _formKey,
                     child: Column(
                       children: [
-                        TextFormField(
-                          controller: _wordController,
-                          style: theme.textTheme.titleLarge?.copyWith(letterSpacing: 2),
-                          textAlign: TextAlign.center,
-                          textCapitalization: TextCapitalization.characters,
-                          inputFormatters: [
-                            FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]')),
-                          ],
-                          decoration: InputDecoration(
-                            hintText: 'ENTER SECRET WORD',
-                            filled: true,
-                            fillColor: Colors.white,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(16),
-                              borderSide: BorderSide.none,
-                            ),
+                        Container(
+                          decoration: BoxDecoration(
+                            boxShadow: [
+                              BoxShadow(
+                                color: AppColors.primary.withOpacity(0.05),
+                                blurRadius: 20,
+                                offset: const Offset(0, 10),
+                              ),
+                            ],
                           ),
-                          validator: Validators.validateWord,
+                          child: TextFormField(
+                            controller: _wordController,
+                            style: theme.textTheme.titleLarge?.copyWith(letterSpacing: 2),
+                            textAlign: TextAlign.center,
+                            textCapitalization: TextCapitalization.characters,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]')),
+                            ],
+                            decoration: const InputDecoration(
+                              hintText: 'ENTER SECRET WORD',
+                              contentPadding: EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+                            ),
+                            validator: Validators.validateWord,
+                            onFieldSubmitted: (_) => _startGame(),
+                          ),
                         ),
                         const SizedBox(height: 24),
                         SizedBox(
