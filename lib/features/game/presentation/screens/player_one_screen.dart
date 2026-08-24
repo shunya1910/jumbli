@@ -23,6 +23,8 @@ class _PlayerOneScreenState extends State<PlayerOneScreen>
   late Animation<double> _fadeAnimation;
   late Animation<Offset> _slideAnimation;
 
+  bool _isTimeBound = true;
+
 
 
   @override
@@ -73,6 +75,7 @@ class _PlayerOneScreenState extends State<PlayerOneScreen>
           pageBuilder: (context, animation, secondaryAnimation) => PlayerTwoScreen(
             originalWord: word,
             scrambledWord: scrambledWord,
+            isTimeBound: _isTimeBound,
           ),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return FadeTransition(
@@ -133,13 +136,44 @@ class _PlayerOneScreenState extends State<PlayerOneScreen>
                       Text(
                         'Enter a word for your friend to guess',
                         style: theme.textTheme.bodyLarge?.copyWith(
-                          color: theme.textTheme.bodyLarge?.color?.withOpacity(
-                            0.7,
-                          ),
+                          color: theme.textTheme.bodyLarge?.color?.withOpacity(0.7),
                         ),
                         textAlign: TextAlign.center,
                       ),
-                      const SizedBox(height: 48),
+                      const SizedBox(height: 24),
+
+                      // Game Mode Toggle
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ChoiceChip(
+                            label: const Text('TIME BOUND (10s)'),
+                            selected: _isTimeBound,
+                            onSelected: (val) {
+                              if (val) setState(() => _isTimeBound = true);
+                            },
+                            selectedColor: AppColors.primary.withOpacity(0.2),
+                            labelStyle: TextStyle(
+                              color: _isTimeBound ? AppColors.primary : Colors.grey,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(width: 16),
+                          ChoiceChip(
+                            label: const Text('ATTEMPTS (3 Tries)'),
+                            selected: !_isTimeBound,
+                            onSelected: (val) {
+                              if (val) setState(() => _isTimeBound = false);
+                            },
+                            selectedColor: AppColors.secondary.withOpacity(0.2),
+                            labelStyle: TextStyle(
+                              color: !_isTimeBound ? AppColors.secondary : Colors.grey,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 32),
 
                       // Form
                       Form(

@@ -9,10 +9,13 @@ class PlayerTwoScreen extends StatefulWidget {
   final String originalWord;
   final String scrambledWord;
 
+  final bool isTimeBound;
+
   const PlayerTwoScreen({
     super.key,
     required this.originalWord,
     required this.scrambledWord,
+    required this.isTimeBound,
   });
 
   @override
@@ -24,6 +27,7 @@ class _PlayerTwoScreenState extends State<PlayerTwoScreen>
   
   Timer? _timer;
   int _timeLeft = 10;
+  int _attemptsLeft = 3;
   bool _isGameOver = false;
 
   late AnimationController _pulseController;
@@ -52,7 +56,9 @@ class _PlayerTwoScreenState extends State<PlayerTwoScreen>
       CurvedAnimation(parent: _pulseController, curve: Curves.easeInOut),
     );
 
-    _startTimer();
+    if (widget.isTimeBound) {
+      _startTimer();
+    }
   }
 
   void _startTimer() {
@@ -79,6 +85,7 @@ class _PlayerTwoScreenState extends State<PlayerTwoScreen>
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (!widget.isTimeBound) return;
     if (state == AppLifecycleState.paused || state == AppLifecycleState.inactive) {
       _timer?.cancel();
     } else if (state == AppLifecycleState.resumed) {
@@ -103,6 +110,23 @@ class _PlayerTwoScreenState extends State<PlayerTwoScreen>
     final currentWord = _currentCards.map((c) => c['letter'] as String).join('');
     if (GameEngine.checkAnswer(original: widget.originalWord, guess: currentWord)) {
       _endGame(isCorrect: true);
+    }
+  }
+
+  void _verifyAttempt() {
+    if (_isGameOver) return;
+    final currentWord = _currentCards.map((c) => c['letter'] as String).join('');
+    if (GameEngine.checkAnswer(original: widget.originalWord, guess: currentWord)) {
+      _endGame(isCorrect: true);
+    } else {
+      setState(() {
+        _attemptsLeft--;
+      });
+      if (_attemptsLeft > 0) {
+        AudioManager.playFailure();
+      } else {
+        _endGame(isCorrect: false);
+      }
     }
   }
 
@@ -163,30 +187,40 @@ class _PlayerTwoScreenState extends State<PlayerTwoScreen>
         child: SafeArea(
           child: Stack(
             children: [
-              // Small Timer Top Left
+              // Small Timer or Hearts Top Left
               Positioned(
                 top: 16,
                 left: 16,
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.timer_outlined,
-                      color: _timeLeft <= 3 ? AppColors.secondary : AppColors.primary,
-                      size: 24,
-                    ),
-                    const SizedBox(width: 8),
-                    ScaleTransition(
-                      scale: _pulseAnimation,
-                      child: Text(
-                        '00:${_timeLeft.toString().padLeft(2, '0')}',
-                        style: theme.textTheme.headlineSmall?.copyWith(
-                          color: _timeLeft <= 3 ? AppColors.secondary : AppColors.primary,
-                          fontWeight: FontWeight.w900,
-                        ),
+                child: widget.isTimeBound
+                    ? Row(
+                        children: [
+                          Icon(
+                            Icons.timer_outlined,
+                            color: _timeLeft <= 3 ? AppColors.secondary : AppColors.primary,
+                            size: 24,
+                          ),
+                          const SizedBox(width: 8),
+                          ScaleTransition(
+                            scale: _pulseAnimation,
+                            child: Text(
+                              '00:${_timeLeft.toString().padLeft(2, '0')}',
+                              style: theme.textTheme.headlineSmall?.copyWith(
+                                color: _timeLeft <= 3 ? AppColors.secondary : AppColors.primary,
+                                fontWeight: FontWeight.w900,
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
+                    : Row(
+                        children: List.generate(3, (index) {
+                          return Icon(
+                            index < _attemptsLeft ? Icons.favorite_rounded : Icons.favorite_border_rounded,
+                            color: AppColors.secondary,
+                            size: 32,
+                          );
+                        }),
                       ),
-                    ),
-                  ],
-                ),
               ),
               
               // Top Right Indicator
@@ -226,7 +260,9 @@ class _PlayerTwoScreenState extends State<PlayerTwoScreen>
                           _currentCards.insert(newIndex, item);
                         });
                         // Add a small delay so the animation finishes before jumping to results
-                        Future.delayed(const Duration(milliseconds: 300), _checkWinCondition);
+                        if (widget.isTimeBound) {
+                          Future.delayed(const Duration(milliseconds: 300), _checkWinCondition);
+                        }
                       },
                       itemBuilder: (context, index) {
                         final card = _currentCards[index];
@@ -276,6 +312,34 @@ class _PlayerTwoScreenState extends State<PlayerTwoScreen>
                   ),
                 ),
               ),
+              // Check Button for Attempt Bound Mode
+              if (!widget.isTimeBound)
+                Positioned(
+                  bottom: 24,
+                  left: 0,
+                  right: 0,
+                  child: Center(
+                    child: ElevatedButton(
+                      onPressed: _attemptsLeft > 0 ? _verifyAttempt : null,
+                      style: ElevatedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(horizontal: 48, vertical: 16),
+                        backgroundColor: AppColors.primary,
+                        elevation: 8,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                      ),
+                      child: Text(
+                        'CHECK',
+                        style: theme.textTheme.titleLarge?.copyWith(
+                          color: Colors.white,
+                          letterSpacing: 2,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
             ],
           ),
         ),
