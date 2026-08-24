@@ -149,6 +149,7 @@ class _PlayerOneScreenState extends State<PlayerOneScreen>
                           ChoiceChip(
                             label: const Text('TIME BOUND (10s)'),
                             selected: _isTimeBound,
+                            showCheckmark: false,
                             onSelected: (val) {
                               if (val) setState(() => _isTimeBound = true);
                             },
@@ -162,12 +163,13 @@ class _PlayerOneScreenState extends State<PlayerOneScreen>
                           ChoiceChip(
                             label: const Text('ATTEMPTS (3 Tries)'),
                             selected: !_isTimeBound,
+                            showCheckmark: false,
                             onSelected: (val) {
                               if (val) setState(() => _isTimeBound = false);
                             },
-                            selectedColor: AppColors.secondary.withOpacity(0.2),
+                            selectedColor: AppColors.primary.withOpacity(0.2),
                             labelStyle: TextStyle(
-                              color: !_isTimeBound ? AppColors.secondary : Colors.grey,
+                              color: !_isTimeBound ? AppColors.primary : Colors.grey,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
