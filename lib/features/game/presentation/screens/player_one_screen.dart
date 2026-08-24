@@ -142,38 +142,87 @@ class _PlayerOneScreenState extends State<PlayerOneScreen>
                       ),
                       const SizedBox(height: 24),
 
-                      // Game Mode Toggle
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          ChoiceChip(
-                            label: const Text('TIME BOUND (10s)'),
-                            selected: _isTimeBound,
-                            showCheckmark: false,
-                            onSelected: (val) {
-                              if (val) setState(() => _isTimeBound = true);
-                            },
-                            selectedColor: AppColors.primary.withOpacity(0.2),
-                            labelStyle: TextStyle(
-                              color: _isTimeBound ? AppColors.primary : Colors.grey,
-                              fontWeight: FontWeight.bold,
-                            ),
+                      // Premium Custom Game Mode Toggle
+                      Center(
+                        child: Container(
+                          height: 56,
+                          decoration: BoxDecoration(
+                            color: theme.colorScheme.surface,
+                            borderRadius: BorderRadius.circular(28),
+                            boxShadow: [
+                              BoxShadow(
+                                color: AppColors.primary.withOpacity(0.08),
+                                blurRadius: 15,
+                                offset: const Offset(0, 8),
+                              ),
+                            ],
                           ),
-                          const SizedBox(width: 16),
-                          ChoiceChip(
-                            label: const Text('ATTEMPTS (3 Tries)'),
-                            selected: !_isTimeBound,
-                            showCheckmark: false,
-                            onSelected: (val) {
-                              if (val) setState(() => _isTimeBound = false);
-                            },
-                            selectedColor: AppColors.primary.withOpacity(0.2),
-                            labelStyle: TextStyle(
-                              color: !_isTimeBound ? AppColors.primary : Colors.grey,
-                              fontWeight: FontWeight.bold,
-                            ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              GestureDetector(
+                                onTap: () => setState(() => _isTimeBound = true),
+                                child: AnimatedContainer(
+                                  duration: const Duration(milliseconds: 250),
+                                  curve: Curves.easeInOut,
+                                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                                  decoration: BoxDecoration(
+                                    color: _isTimeBound ? AppColors.primary : Colors.transparent,
+                                    borderRadius: BorderRadius.circular(28),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.timer_outlined,
+                                        size: 20,
+                                        color: _isTimeBound ? Colors.white : AppColors.textSecondaryLight,
+                                      ),
+                                      const SizedBox(width: 8),
+                                      Text(
+                                        '10 SECONDS',
+                                        style: TextStyle(
+                                          color: _isTimeBound ? Colors.white : AppColors.textSecondaryLight,
+                                          fontWeight: FontWeight.w800,
+                                          letterSpacing: 1.2,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              GestureDetector(
+                                onTap: () => setState(() => _isTimeBound = false),
+                                child: AnimatedContainer(
+                                  duration: const Duration(milliseconds: 250),
+                                  curve: Curves.easeInOut,
+                                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                                  decoration: BoxDecoration(
+                                    color: !_isTimeBound ? AppColors.primary : Colors.transparent,
+                                    borderRadius: BorderRadius.circular(28),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.favorite_outline_rounded,
+                                        size: 20,
+                                        color: !_isTimeBound ? Colors.white : AppColors.textSecondaryLight,
+                                      ),
+                                      const SizedBox(width: 8),
+                                      Text(
+                                        '3 ATTEMPTS',
+                                        style: TextStyle(
+                                          color: !_isTimeBound ? Colors.white : AppColors.textSecondaryLight,
+                                          fontWeight: FontWeight.w800,
+                                          letterSpacing: 1.2,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                        ],
+                        ),
                       ),
                       const SizedBox(height: 32),
 
