@@ -172,19 +172,26 @@ class _PlayerOneScreenState extends State<PlayerOneScreen>
                                   ),
                                   child: Row(
                                     children: [
-                                      Icon(
-                                        Icons.timer_outlined,
-                                        size: 20,
-                                        color: _isTimeBound ? Colors.white : AppColors.textSecondaryLight,
+                                      TweenAnimationBuilder<Color?>(
+                                        duration: const Duration(milliseconds: 250),
+                                        tween: ColorTween(end: _isTimeBound ? Colors.white : AppColors.textSecondaryLight),
+                                        builder: (context, color, child) {
+                                          return Icon(
+                                            Icons.timer_outlined,
+                                            size: 20,
+                                            color: color,
+                                          );
+                                        },
                                       ),
                                       const SizedBox(width: 8),
-                                      Text(
-                                        '10 SECONDS',
+                                      AnimatedDefaultTextStyle(
+                                        duration: const Duration(milliseconds: 250),
                                         style: TextStyle(
                                           color: _isTimeBound ? Colors.white : AppColors.textSecondaryLight,
                                           fontWeight: FontWeight.w800,
                                           letterSpacing: 1.2,
                                         ),
+                                        child: const Text('10 SECONDS'),
                                       ),
                                     ],
                                   ),
@@ -202,19 +209,26 @@ class _PlayerOneScreenState extends State<PlayerOneScreen>
                                   ),
                                   child: Row(
                                     children: [
-                                      Icon(
-                                        Icons.favorite_outline_rounded,
-                                        size: 20,
-                                        color: !_isTimeBound ? Colors.white : AppColors.textSecondaryLight,
+                                      TweenAnimationBuilder<Color?>(
+                                        duration: const Duration(milliseconds: 250),
+                                        tween: ColorTween(end: !_isTimeBound ? Colors.white : AppColors.textSecondaryLight),
+                                        builder: (context, color, child) {
+                                          return Icon(
+                                            Icons.favorite_outline_rounded,
+                                            size: 20,
+                                            color: color,
+                                          );
+                                        },
                                       ),
                                       const SizedBox(width: 8),
-                                      Text(
-                                        '3 ATTEMPTS',
+                                      AnimatedDefaultTextStyle(
+                                        duration: const Duration(milliseconds: 250),
                                         style: TextStyle(
                                           color: !_isTimeBound ? Colors.white : AppColors.textSecondaryLight,
                                           fontWeight: FontWeight.w800,
                                           letterSpacing: 1.2,
                                         ),
+                                        child: const Text('3 ATTEMPTS'),
                                       ),
                                     ],
                                   ),
