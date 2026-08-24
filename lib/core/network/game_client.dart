@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 class GameClient {
@@ -12,19 +13,19 @@ class GameClient {
     try {
       final wsUrl = Uri.parse('ws://$ipAddress:8080');
       _channel = WebSocketChannel.connect(wsUrl);
-      print('Client connected to $wsUrl');
+      debugPrint('Client connected to $wsUrl');
 
       // Listen for messages from the Host
       _channel?.stream.listen((message) {
-        print('Client received: $message');
+        debugPrint('Client received: $message');
         _handleIncomingMessage(message.toString());
       }, onError: (error) {
-        print('WebSocket Error: $error');
+        debugPrint('WebSocket Error: $error');
       }, onDone: () {
-        print('Disconnected from Host');
+        debugPrint('Disconnected from Host');
       });
     } catch (e) {
-      print('Connection failed: $e');
+      debugPrint('Connection failed: $e');
     }
   }
 
@@ -40,7 +41,7 @@ class GameClient {
         onGameOver?.call(data);
       }
     } catch (e) {
-      print('Error parsing message from Host: $e');
+      debugPrint('Error parsing message from Host: $e');
     }
   }
 

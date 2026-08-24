@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:shelf/shelf_io.dart' as shelf_io;
 import 'package:shelf_web_socket/shelf_web_socket.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
@@ -13,24 +14,24 @@ class GameServer {
   Future<void> startServer() async {
     var handler = webSocketHandler((webSocket) {
       _clients.add(webSocket);
-      print('A new player joined! Total players: ${_clients.length}');
+      debugPrint('A new player joined! Total players: ${_clients.length}');
 
       webSocket.stream.listen(
         (message) {
           // When we receive a message from any client, we can process it here
-          print('Server received: $message');
+          debugPrint('Server received: $message');
           _handleIncomingMessage(message.toString(), webSocket);
         },
         onDone: () {
           _clients.remove(webSocket);
-          print('A player left. Total players: ${_clients.length}');
+          debugPrint('A player left. Total players: ${_clients.length}');
         },
       );
     });
 
     // Bind to all network interfaces on port 8080
     _server = await shelf_io.serve(handler, InternetAddress.anyIPv4, 8080);
-    print('WebSocket Server running on ws://${_server?.address.host}:${_server?.port}');
+    debugPrint('WebSocket Server running on ws://${_server?.address.host}:${_server?.port}');
   }
 
   // Handle messages received from clients (like "i_won")
@@ -44,7 +45,7 @@ class GameServer {
         onPlayerWon?.call(data); // Notify the Host UI
       }
     } catch (e) {
-      print('Error parsing message: $e');
+      debugPrint('Error parsing message: $e');
     }
   }
 
@@ -62,6 +63,6 @@ class GameServer {
     }
     _clients.clear();
     await _server?.close(force: true);
-    print('Server shut down.');
+    debugPrint('Server shut down.');
   }
 }
