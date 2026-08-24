@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:jumbli/core/theme/app_colors.dart';
 import '../../domain/game_engine.dart';
 import 'package:jumbli/core/utils/audio_manager.dart';
@@ -37,11 +36,7 @@ class _PlayerTwoScreenState extends State<PlayerTwoScreen>
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     
-    // Force landscape orientation for the drag-and-drop gameplay
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.landscapeRight,
-      DeviceOrientation.landscapeLeft,
-    ]);
+
 
     // Assign a unique ID to each letter so ReorderableListView can track them reliably
     _currentCards = widget.scrambledWord.split('').asMap().entries.map((e) => {
@@ -95,13 +90,7 @@ class _PlayerTwoScreenState extends State<PlayerTwoScreen>
 
   @override
   void dispose() {
-    // Revert back to allowing all orientations (auto-rotate) for other screens
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-      DeviceOrientation.landscapeLeft,
-      DeviceOrientation.landscapeRight,
-    ]);
+
 
     WidgetsBinding.instance.removeObserver(this);
     _timer?.cancel();
