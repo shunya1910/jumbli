@@ -106,7 +106,7 @@ class _PlayerOneScreenState extends State<PlayerOneScreen>
         ),
         child: SafeArea(
           child: Center(
-            child: SingleChildScrollView(
+            child: Padding(
               padding: const EdgeInsets.symmetric(
                 horizontal: 24.0,
                 vertical: 16.0,
@@ -197,12 +197,7 @@ class _PlayerOneScreenState extends State<PlayerOneScreen>
                         ),
                       ),
 
-                      // Keyboard padding spacer
-                      SizedBox(
-                        height: MediaQuery.of(context).viewInsets.bottom > 0
-                            ? 40
-                            : 0,
-                      ),
+
                     ],
                   ),
                 ),

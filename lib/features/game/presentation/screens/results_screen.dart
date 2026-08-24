@@ -148,8 +148,8 @@ class _ResultsScreenState extends State<ResultsScreen>
           ),
 
           SafeArea(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.all(24.0),
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -157,9 +157,9 @@ class _ResultsScreenState extends State<ResultsScreen>
                   // Animated Icon
                   ScaleTransition(
                     scale: _scaleAnimation,
-                    child: Icon(_icon, size: 100, color: _resultColor),
+                    child: Icon(_icon, size: 60, color: _resultColor),
                   ),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 12),
 
                   // Title
                   Text(
@@ -171,11 +171,11 @@ class _ResultsScreenState extends State<ResultsScreen>
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  const SizedBox(height: 48),
+                  const SizedBox(height: 24),
 
                   // Word Reveal Card
                   Container(
-                    padding: const EdgeInsets.all(24),
+                    padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
                       color: theme.colorScheme.surface,
                       borderRadius: BorderRadius.circular(24),
@@ -233,31 +233,24 @@ class _ResultsScreenState extends State<ResultsScreen>
                       ],
                     ),
                   ),
-
-                  const SizedBox(height: 64),
-
-                  // Next Round Button
-                  ElevatedButton(
-                    onPressed: _nextRound,
-                    style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: 24),
-                      elevation: 8,
-                      backgroundColor: _resultColor,
-                      shadowColor: _resultColor.withOpacity(0.5),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                    ),
-                    child: Text(
-                      'PLAY NEXT ROUND',
-                      style: theme.textTheme.titleLarge?.copyWith(
-                        color: Colors.white,
-                        letterSpacing: 2,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
                 ],
+              ),
+            ),
+          ),
+
+          // Minimal Next Round Button
+          SafeArea(
+            child: Align(
+              alignment: Alignment.topRight,
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: IconButton(
+                  onPressed: _nextRound,
+                  icon: const Icon(Icons.refresh_rounded),
+                  color: _resultColor,
+                  iconSize: 32,
+                  tooltip: 'Play Next Round',
+                ),
               ),
             ),
           ),
