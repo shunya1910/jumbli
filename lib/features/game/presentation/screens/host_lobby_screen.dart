@@ -112,7 +112,7 @@ class _HostLobbyScreenState extends State<HostLobbyScreen> {
         ),
         child: SafeArea(
           child: Center(
-            child: SingleChildScrollView( // Allow scrolling if keyboard blocks view
+            child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,

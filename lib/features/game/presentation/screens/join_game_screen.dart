@@ -92,7 +92,7 @@ class _JoinGameScreenState extends State<JoinGameScreen> {
         ),
         child: SafeArea(
           child: Center(
-            child: SingleChildScrollView(
+            child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
               child: Form(
                 key: _formKey,
