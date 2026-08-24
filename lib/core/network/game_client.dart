@@ -8,6 +8,7 @@ class GameClient {
   // Callbacks so the UI can react when messages arrive
   Function(Map<String, dynamic>)? onGameStarted;
   Function(Map<String, dynamic>)? onGameOver;
+  Function()? onConnected;
 
   void connect(String ipAddress) {
     try {
@@ -24,6 +25,9 @@ class GameClient {
       }, onDone: () {
         debugPrint('Disconnected from Host');
       });
+
+      // Send the initial handshake message
+      sendMessage({'action': 'join', 'name': 'Player'});
     } catch (e) {
       debugPrint('Connection failed: $e');
     }
@@ -39,6 +43,9 @@ class GameClient {
       } else if (data['action'] == 'i_won') {
         // Trigger the UI to show the results screen
         onGameOver?.call(data);
+      } else if (data['action'] == 'connected') {
+        // Host acknowledged our connection
+        onConnected?.call();
       }
     } catch (e) {
       debugPrint('Error parsing message from Host: $e');

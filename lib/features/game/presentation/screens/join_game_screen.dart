@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jumbli/core/theme/app_colors.dart';
 import '../../../../core/network/game_client.dart';
-import 'player_two_screen.dart';
+import 'client_waiting_screen.dart';
 
 class JoinGameScreen extends StatefulWidget {
   const JoinGameScreen({super.key});
@@ -22,24 +22,20 @@ class _JoinGameScreenState extends State<JoinGameScreen> {
   void initState() {
     super.initState();
     
-    // When the Host clicks "Start", the client receives this event!
-    _client.onGameStarted = (data) {
+    // When the Host acknowledges our connection, jump to the waiting screen
+    _client.onConnected = () {
       if (!mounted) return;
       setState(() => _isConnecting = false);
       
-      final originalWord = data['original_word'];
-      final scrambledWord = data['scrambled_word'];
-      final isTimeBound = data['is_time_bound'] ?? true;
-
-      // Navigate to the gameplay screen
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (_) => PlayerTwoScreen(
-            originalWord: originalWord,
-            scrambledWord: scrambledWord,
-            isTimeBound: isTimeBound,
-            client: _client, // Pass the client so we can send the 'win' message!
+          builder: (_) => ClientWaitingScreen(
+            client: _client,
             playerName: _nameController.text.trim(),
+            onCancel: () {
+              _client.disconnect();
+              Navigator.pop(context);
+            },
           ),
         ),
       );

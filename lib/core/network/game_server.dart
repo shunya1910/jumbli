@@ -18,7 +18,6 @@ class GameServer {
 
       webSocket.stream.listen(
         (message) {
-          // When we receive a message from any client, we can process it here
           debugPrint('Server received: $message');
           _handleIncomingMessage(message.toString(), webSocket);
         },
@@ -43,6 +42,10 @@ class GameServer {
       if (data['action'] == 'i_won') {
         broadcast(message); // Forward the exact same win message to all phones
         onPlayerWon?.call(data); // Notify the Host UI
+      } else if (data['action'] == 'join') {
+        // Send a confirmation back so the client knows they successfully connected
+        sender.sink.add(jsonEncode({'action': 'connected'}));
+        debugPrint('${data['name']} joined the lobby.');
       }
     } catch (e) {
       debugPrint('Error parsing message: $e');
