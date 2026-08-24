@@ -181,12 +181,19 @@ class _PlayerTwoScreenState extends State<PlayerTwoScreen>
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    // Calculate a good width for the cards, making them significantly larger
+    final isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
     final screenWidth = MediaQuery.of(context).size.width;
+    
     final maxCardWidth = (screenWidth - 48 - ((_currentCards.length - 1) * 8)) / _currentCards.length;
-    // Allow cards to shrink dynamically so the entire word always fits on the screen without horizontal scrolling
-    // We cap the maximum size to 120 so they don't get comically huge for 3-letter words.
-    final cardWidth = maxCardWidth > 120.0 ? 120.0 : (maxCardWidth < 30.0 ? 30.0 : maxCardWidth);
+    
+    // In landscape, cards can be large. In portrait, cap them smaller so they don't look weird for short words.
+    final maxAllowedWidth = isLandscape ? 120.0 : 80.0;
+    
+    // Minimum width is 40. If it falls below this, the ReorderableListView will simply become horizontally scrollable!
+    final cardWidth = maxCardWidth > maxAllowedWidth 
+        ? maxAllowedWidth 
+        : (maxCardWidth < 40.0 ? 40.0 : maxCardWidth);
+        
     final cardHeight = cardWidth * 1.3;
 
     return Scaffold(

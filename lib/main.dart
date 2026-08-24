@@ -4,15 +4,18 @@ import 'package:flutter/services.dart';
 import 'core/theme/app_theme.dart';
 import 'features/game/presentation/screens/main_menu_screen.dart';
 
-void main() async {
+void main() {
   WidgetsFlutterBinding.ensureInitialized();
   
-  await SystemChrome.setPreferredOrientations([
-    DeviceOrientation.landscapeRight,
+  // Set preferred orientations to allow both portrait and landscape
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
     DeviceOrientation.landscapeLeft,
-  ]);
-
-  runApp(const JumbliApp());
+    DeviceOrientation.landscapeRight,
+  ]).then((_) {
+    runApp(const JumbliApp());
+  });
 }
 
 class JumbliApp extends StatelessWidget {
