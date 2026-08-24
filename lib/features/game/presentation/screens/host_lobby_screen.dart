@@ -117,43 +117,38 @@ class _HostLobbyScreenState extends State<HostLobbyScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  // Network Instructions
-                  Container(
-                    padding: const EdgeInsets.all(24),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20),
-                      boxShadow: [
-                        BoxShadow(
+                  // Network Instructions (Compact)
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'HOST IP:',
+                        style: theme.textTheme.titleMedium?.copyWith(
+                          color: AppColors.textSecondaryLight,
+                          letterSpacing: 2,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(width: 16),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                        decoration: BoxDecoration(
                           color: AppColors.primary.withOpacity(0.1),
-                          blurRadius: 20,
-                          offset: const Offset(0, 10),
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(color: AppColors.primary.withOpacity(0.3)),
                         ),
-                      ],
-                    ),
-                    child: Column(
-                      children: [
-                        Text(
-                          'TELL YOUR FRIENDS TO JOIN:',
-                          style: theme.textTheme.labelLarge?.copyWith(
-                            color: AppColors.textSecondaryLight,
-                            letterSpacing: 2,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
+                        child: Text(
                           _ipAddress,
-                          style: theme.textTheme.displaySmall?.copyWith(
+                          style: theme.textTheme.titleLarge?.copyWith(
                             color: AppColors.primary,
                             fontWeight: FontWeight.w900,
-                            letterSpacing: 4,
+                            letterSpacing: 2,
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                  const SizedBox(height: 32),
+                  const SizedBox(height: 16),
 
                   // Game Mode Toggle (Reused layout)
                   Center(
@@ -291,7 +286,9 @@ class _HostLobbyScreenState extends State<HostLobbyScreen> {
                             onPressed: _startGame,
                             style: ElevatedButton.styleFrom(
                               padding: const EdgeInsets.symmetric(vertical: 20),
-                              backgroundColor: AppColors.accent,
+                              backgroundColor: AppColors.primary,
+                              elevation: 8,
+                              shadowColor: AppColors.primary.withOpacity(0.5),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(16),
                               ),

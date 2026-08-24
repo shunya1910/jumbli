@@ -166,7 +166,9 @@ class _JoinGameScreenState extends State<JoinGameScreen> {
                           onPressed: _connectToHost,
                           style: ElevatedButton.styleFrom(
                             padding: const EdgeInsets.symmetric(vertical: 20),
-                            backgroundColor: AppColors.secondary,
+                            backgroundColor: AppColors.primary,
+                            elevation: 8,
+                            shadowColor: AppColors.primary.withOpacity(0.5),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(16),
                             ),

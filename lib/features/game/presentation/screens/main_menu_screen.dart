@@ -71,7 +71,7 @@ class MainMenuScreen extends StatelessWidget {
                         context,
                         title: 'HOST GAME',
                         icon: Icons.wifi_tethering_rounded,
-                        color: AppColors.accent,
+                        color: AppColors.primary,
                         onTap: () {
                           Navigator.of(context).push(
                             MaterialPageRoute(builder: (_) => const HostLobbyScreen()),
@@ -83,7 +83,7 @@ class MainMenuScreen extends StatelessWidget {
                         context,
                         title: 'JOIN GAME',
                         icon: Icons.connect_without_contact_rounded,
-                        color: AppColors.secondary,
+                        color: AppColors.primary,
                         onTap: () {
                           Navigator.of(context).push(
                             MaterialPageRoute(builder: (_) => const JoinGameScreen()),
