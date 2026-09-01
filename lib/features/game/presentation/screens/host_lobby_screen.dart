@@ -151,8 +151,9 @@ class _HostLobbyScreenState extends State<HostLobbyScreen> {
           child: Center(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   // Network Instructions (Compact)
                   Row(
@@ -348,6 +349,7 @@ class _HostLobbyScreenState extends State<HostLobbyScreen> {
             ),
           ),
         ),
+      ),
       ),
     );
   }

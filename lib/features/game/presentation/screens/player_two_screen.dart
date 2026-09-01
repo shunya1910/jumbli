@@ -5,6 +5,7 @@ import '../../domain/game_engine.dart';
 import 'package:jumbli/core/utils/audio_manager.dart';
 import 'results_screen.dart';
 import '../../../../core/network/game_client.dart';
+import 'client_waiting_screen.dart';
 
 class PlayerTwoScreen extends StatefulWidget {
   final String originalWord;
@@ -165,6 +166,24 @@ class _PlayerTwoScreenState extends State<PlayerTwoScreen>
           result: resultState,
           originalWord: widget.originalWord,
           playerGuess: winnerName ?? _currentCards.map((c) => c['letter'] as String).join(''),
+          onNextRound: widget.client != null ? () {
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(
+                builder: (_) => ClientWaitingScreen(
+                  client: widget.client!,
+                  playerName: widget.playerName ?? 'Player',
+                  onCancel: () {
+                    widget.client!.disconnect();
+                    Navigator.of(context).popUntil((route) => route.isFirst);
+                  },
+                ),
+              ),
+            );
+          } : null,
+          onExit: () {
+            widget.client?.disconnect();
+            Navigator.of(context).popUntil((route) => route.isFirst);
+          },
         ),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           return FadeTransition(

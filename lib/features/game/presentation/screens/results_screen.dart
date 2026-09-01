@@ -11,12 +11,18 @@ class ResultsScreen extends StatefulWidget {
   final GameResult result;
   final String originalWord;
   final String playerGuess;
+  final bool isHostView;
+  final VoidCallback? onNextRound;
+  final VoidCallback? onExit;
 
   const ResultsScreen({
     super.key,
     required this.result,
     required this.originalWord,
     required this.playerGuess,
+    this.isHostView = false,
+    this.onNextRound,
+    this.onExit,
   });
 
   @override
@@ -77,19 +83,28 @@ class _ResultsScreenState extends State<ResultsScreen>
   }
 
   void _nextRound() {
+    if (widget.onNextRound != null) {
+      widget.onNextRound!();
+      return;
+    }
     Navigator.of(context).pushAndRemoveUntil(
       PageRouteBuilder(
         pageBuilder: (context, animation, secondaryAnimation) => const PlayerOneScreen(),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
-          return FadeTransition(
-            opacity: animation,
-            child: child,
-          );
+          return FadeTransition(opacity: animation, child: child);
         },
         transitionDuration: const Duration(milliseconds: 800),
       ),
       (route) => false,
     );
+  }
+
+  void _exit() {
+    if (widget.onExit != null) {
+      widget.onExit!();
+      return;
+    }
+    Navigator.of(context).popUntil((route) => route.isFirst);
   }
 
   Color get _resultColor {
@@ -103,6 +118,9 @@ class _ResultsScreenState extends State<ResultsScreen>
   }
 
   String get _title {
+    if (widget.isHostView && widget.result == GameResult.correct) {
+      return '${widget.playerGuess.toUpperCase()} WON!';
+    }
     switch (widget.result) {
       case GameResult.correct:
         return 'BRILLIANT!';
@@ -114,6 +132,9 @@ class _ResultsScreenState extends State<ResultsScreen>
   }
 
   IconData get _icon {
+    if (widget.isHostView && widget.result == GameResult.correct) {
+      return Icons.emoji_events_rounded;
+    }
     switch (widget.result) {
       case GameResult.correct:
         return Icons.star_rounded;
@@ -148,12 +169,14 @@ class _ResultsScreenState extends State<ResultsScreen>
           ),
 
           SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.1),
                   // Animated Icon
                   ScaleTransition(
                     scale: _scaleAnimation,
@@ -237,21 +260,34 @@ class _ResultsScreenState extends State<ResultsScreen>
               ),
             ),
           ),
+          ),
 
-          // Minimal Next Round Button
+          // Minimal Next Round and Exit Buttons
           SafeArea(
-            child: Align(
-              alignment: Alignment.topRight,
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: IconButton(
-                  onPressed: _nextRound,
-                  icon: const Icon(Icons.refresh_rounded),
-                  color: _resultColor,
-                  iconSize: 32,
-                  tooltip: 'Play Next Round',
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: IconButton(
+                    onPressed: _exit,
+                    icon: const Icon(Icons.close_rounded),
+                    color: _resultColor,
+                    iconSize: 32,
+                    tooltip: 'Exit Game',
+                  ),
                 ),
-              ),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: IconButton(
+                    onPressed: _nextRound,
+                    icon: const Icon(Icons.refresh_rounded),
+                    color: _resultColor,
+                    iconSize: 32,
+                    tooltip: 'Play Next Round',
+                  ),
+                ),
+              ],
             ),
           ),
 

@@ -33,7 +33,10 @@ class _HostWaitingScreenState extends State<HostWaitingScreen> {
           builder: (_) => ResultsScreen(
             result: GameResult.correct,
             originalWord: widget.originalWord,
-            playerGuess: winnerName, // We can hijack this field to show winner name for now
+            playerGuess: winnerName,
+            isHostView: true,
+            onNextRound: () => Navigator.of(context).pop(),
+            onExit: () => Navigator.of(context).popUntil((route) => route.isFirst),
           ),
         ),
       );
