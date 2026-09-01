@@ -128,9 +128,10 @@ class _PlayerOneScreenState extends State<PlayerOneScreen>
                 opacity: _fadeAnimation,
                 child: SlideTransition(
                   position: _slideAnimation,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       // Header
                       Text(
@@ -309,6 +310,7 @@ class _PlayerOneScreenState extends State<PlayerOneScreen>
 
                     ],
                   ),
+                ),
                 ),
               ),
             ),

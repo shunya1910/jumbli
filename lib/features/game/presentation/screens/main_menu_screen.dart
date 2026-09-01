@@ -52,8 +52,10 @@ class MainMenuScreen extends StatelessWidget {
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 64),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                  Wrap(
+                    alignment: WrapAlignment.center,
+                    spacing: 24,
+                    runSpacing: 24,
                     children: [
                       _buildMenuButton(
                         context,
@@ -66,7 +68,6 @@ class MainMenuScreen extends StatelessWidget {
                           );
                         },
                       ),
-                      const SizedBox(width: 24),
                       _buildMenuButton(
                         context,
                         title: 'HOST GAME',
@@ -78,7 +79,6 @@ class MainMenuScreen extends StatelessWidget {
                           );
                         },
                       ),
-                      const SizedBox(width: 24),
                       _buildMenuButton(
                         context,
                         title: 'JOIN GAME',
