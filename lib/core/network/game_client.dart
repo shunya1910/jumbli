@@ -9,6 +9,8 @@ class GameClient {
   Function(Map<String, dynamic>)? onGameStarted;
   Function(Map<String, dynamic>)? onGameOver;
   Function()? onConnected;
+  Function(String)? onError;
+  Function()? onDisconnected;
 
   void connect(String ipAddress) {
     try {
@@ -22,14 +24,17 @@ class GameClient {
         _handleIncomingMessage(message.toString());
       }, onError: (error) {
         debugPrint('WebSocket Error: $error');
+        onError?.call(error.toString());
       }, onDone: () {
         debugPrint('Disconnected from Host');
+        onDisconnected?.call();
       });
 
       // Send the initial handshake message
       sendMessage({'action': 'join', 'name': 'Player'});
     } catch (e) {
       debugPrint('Connection failed: $e');
+      onError?.call(e.toString());
     }
   }
 

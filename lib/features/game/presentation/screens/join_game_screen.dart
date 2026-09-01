@@ -22,11 +22,17 @@ class _JoinGameScreenState extends State<JoinGameScreen> {
   void initState() {
     super.initState();
     
-    // When the Host acknowledges our connection, jump to the waiting screen
     _client.onConnected = () {
       if (!mounted) return;
       setState(() => _isConnecting = false);
       
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Successfully connected to Host!', style: TextStyle(color: Colors.white)),
+          backgroundColor: Colors.green,
+        ),
+      );
+
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
           builder: (_) => ClientWaitingScreen(
@@ -37,6 +43,28 @@ class _JoinGameScreenState extends State<JoinGameScreen> {
               Navigator.pop(context);
             },
           ),
+        ),
+      );
+    };
+
+    _client.onError = (error) {
+      if (!mounted) return;
+      setState(() => _isConnecting = false);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Connection error: $error', style: const TextStyle(color: Colors.white)),
+          backgroundColor: Colors.red,
+        ),
+      );
+    };
+
+    _client.onDisconnected = () {
+      if (!mounted) return;
+      setState(() => _isConnecting = false);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Disconnected from Host', style: TextStyle(color: Colors.white)),
+          backgroundColor: Colors.orange,
         ),
       );
     };

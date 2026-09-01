@@ -9,6 +9,8 @@ class GameServer {
   HttpServer? _server;
   final List<WebSocketChannel> _clients = [];
   Function(Map<String, dynamic>)? onPlayerWon;
+  Function(String)? onPlayerJoined;
+  Function(String)? onError;
 
   // Start the WebSocket server on port 8080
   Future<void> startServer() async {
@@ -45,10 +47,13 @@ class GameServer {
       } else if (data['action'] == 'join') {
         // Send a confirmation back so the client knows they successfully connected
         sender.sink.add(jsonEncode({'action': 'connected'}));
-        debugPrint('${data['name']} joined the lobby.');
+        final playerName = data['name'] ?? 'A player';
+        debugPrint('$playerName joined the lobby.');
+        onPlayerJoined?.call(playerName);
       }
     } catch (e) {
       debugPrint('Error parsing message: $e');
+      onError?.call('Error parsing message: $e');
     }
   }
 

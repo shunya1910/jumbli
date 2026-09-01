@@ -28,6 +28,24 @@ class _HostLobbyScreenState extends State<HostLobbyScreen> {
   @override
   void initState() {
     super.initState();
+    _server.onPlayerJoined = (playerName) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('$playerName joined the lobby!', style: const TextStyle(color: Colors.white)),
+          backgroundColor: Colors.green,
+        ),
+      );
+    };
+    _server.onError = (error) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Server error: $error', style: const TextStyle(color: Colors.white)),
+          backgroundColor: Colors.red,
+        ),
+      );
+    };
     _startServer();
   }
 
@@ -43,7 +61,26 @@ class _HostLobbyScreenState extends State<HostLobbyScreen> {
     }
 
     // Start listening for players
-    await _server.startServer();
+    try {
+      await _server.startServer();
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Server started! Waiting for players...', style: TextStyle(color: Colors.white)),
+            backgroundColor: Colors.green,
+          ),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Failed to start server: $e', style: const TextStyle(color: Colors.white)),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
   }
 
   @override
