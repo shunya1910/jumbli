@@ -307,7 +307,7 @@ class _HostLobbyScreenState extends State<HostLobbyScreen> {
                           child: TextFormField(
                             controller: _wordController,
                             style: theme.textTheme.titleLarge?.copyWith(letterSpacing: 2),
-                            textAlign: TextAlign.center,
+                            textAlign: TextAlign.start,
                             textCapitalization: TextCapitalization.characters,
                             inputFormatters: [
                               FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]')),

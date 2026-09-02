@@ -142,7 +142,7 @@ class _JoinGameScreenState extends State<JoinGameScreen> {
                       child: TextFormField(
                         controller: _nameController,
                         style: theme.textTheme.titleLarge?.copyWith(letterSpacing: 2),
-                        textAlign: TextAlign.center,
+                        textAlign: TextAlign.start,
                         textCapitalization: TextCapitalization.characters,
                         decoration: const InputDecoration(
                           hintText: 'YOUR NICKNAME',
@@ -165,7 +165,7 @@ class _JoinGameScreenState extends State<JoinGameScreen> {
                       child: TextFormField(
                         controller: _ipController,
                         style: theme.textTheme.titleLarge?.copyWith(letterSpacing: 2),
-                        textAlign: TextAlign.center,
+                        textAlign: TextAlign.start,
                         keyboardType: const TextInputType.numberWithOptions(decimal: true),
                         decoration: const InputDecoration(
                           hintText: 'HOST IP ADDRESS',

@@ -48,11 +48,6 @@ class _PlayerOneScreenState extends State<PlayerOneScreen>
         );
 
     _animationController.forward();
-
-    // Auto-focus after a short delay for smooth entry
-    Future.delayed(const Duration(milliseconds: 400), () {
-      if (mounted) _focusNode.requestFocus();
-    });
   }
 
   @override
