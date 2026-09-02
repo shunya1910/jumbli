@@ -203,9 +203,11 @@ class _HostLobbyScreenState extends State<HostLobbyScreen> {
                           ),
                         ],
                       ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
                           GestureDetector(
                             onTap: () => setState(() => _isTimeBound = true),
                             child: AnimatedContainer(
@@ -281,6 +283,7 @@ class _HostLobbyScreenState extends State<HostLobbyScreen> {
                             ),
                           ),
                         ],
+                      ),
                       ),
                     ),
                   ),

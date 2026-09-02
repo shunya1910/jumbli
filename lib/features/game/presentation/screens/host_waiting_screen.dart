@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jumbli/core/theme/app_colors.dart';
 import '../../../../core/network/game_server.dart';
 import 'results_screen.dart';
+import 'host_lobby_screen.dart';
 
 class HostWaitingScreen extends StatefulWidget {
   final GameServer server;
@@ -35,7 +36,9 @@ class _HostWaitingScreenState extends State<HostWaitingScreen> {
             originalWord: widget.originalWord,
             playerGuess: winnerName,
             isHostView: true,
-            onNextRound: () => Navigator.of(context).pop(),
+            onNextRound: () => Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (_) => const HostLobbyScreen())
+            ),
             onExit: () => Navigator.of(context).popUntil((route) => route.isFirst),
           ),
         ),

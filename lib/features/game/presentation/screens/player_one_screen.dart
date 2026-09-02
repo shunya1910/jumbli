@@ -168,9 +168,11 @@ class _PlayerOneScreenState extends State<PlayerOneScreen>
                               ),
                             ],
                           ),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
+                          child: FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
                               GestureDetector(
                                 onTap: () => setState(() => _isTimeBound = true),
                                 child: AnimatedContainer(
@@ -246,6 +248,7 @@ class _PlayerOneScreenState extends State<PlayerOneScreen>
                                 ),
                               ),
                             ],
+                          ),
                           ),
                         ),
                       ),

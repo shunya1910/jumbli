@@ -30,8 +30,8 @@ class GameServer {
       );
     });
 
-    // Bind to all network interfaces on port 8080
-    _server = await shelf_io.serve(handler, InternetAddress.anyIPv4, 8080);
+    // Bind to all network interfaces on port 8080 with shared: true to allow rebinding
+    _server = await shelf_io.serve(handler, InternetAddress.anyIPv4, 8080, shared: true);
     debugPrint('WebSocket Server running on ws://${_server?.address.host}:${_server?.port}');
   }
 
